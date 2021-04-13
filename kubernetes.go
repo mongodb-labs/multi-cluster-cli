@@ -71,7 +71,11 @@ func createService(c *kubernetes.Clientset, name string) {
 	}
 }
 
-func createPod() {
+func createSecret(c *kubernetes.Clientset, secret string) {
+
+}
+
+func createPod(c *kubernetes.Clientset, name string) {
 
 }
 
@@ -90,7 +94,10 @@ func deployMongoDBRS() {
 	createService(cb, "my-replica-set-2-svc")
 
 	// iv: create the secret object in each namespace
-	// TODO
+
 	// v. create the pods 1 pod in clustera and 2 pods in cluster2
+	createPod(ca, "my-replica-set-0")
+	createPod(cb, "my-replica-set-1")
+	createPod(cb, "my-replica-set-2")
 	// TODO
 }
