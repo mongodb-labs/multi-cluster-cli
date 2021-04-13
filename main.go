@@ -19,6 +19,7 @@ const (
 	Project  Object = "project"
 	APIKeys         = "apiKeys"
 	AgentKey        = "agentKey"
+	MongoDB         = "mongo"
 )
 
 type ProjectData struct {
@@ -71,13 +72,6 @@ func createAgentKey() error {
 	return nil
 }
 
-// Creates connected Kind clusters
-// Replaces default CNI "kinetd" with cillium "CNI"
-// Runs Istio in multi primary setup for the connected clusters
-func setUpCluster() {
-
-}
-
 // cluster names are currently hardcoded
 // "cluster-a" and "cluster-b", maybe tweak it later
 func main() {
@@ -102,6 +96,8 @@ func main() {
 		createAPIKey()
 	case AgentKey:
 		createAgentKey()
+	case MongoDB:
+		deployMongoDBRS()
 	default:
 		fmt.Println("Enter a valid option...")
 	}
