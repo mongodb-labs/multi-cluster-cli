@@ -48,7 +48,7 @@ func createNamespace(c *kubernetes.Clientset) {
 func createService(c *kubernetes.Clientset, name string) {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 
-	obj, _, err := decode([]byte("./yamls/svc.yaml"), nil, nil)
+	obj, _, err := decode([]byte(svc), nil, nil)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 	}
