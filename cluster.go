@@ -25,7 +25,7 @@ func setupKindClustersWithCillium() {
 			break
 		}
 		if time.Now().After(deadline) {
-			fmt.Println("Error: Gave up waiting for cillium to be installed")
+			fmt.Println("error: Gave up waiting for cillium to be installed")
 		}
 		fmt.Println("waiting for cilium to be installed ....")
 		time.Sleep(10 * time.Second)

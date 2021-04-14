@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 
@@ -29,7 +30,7 @@ func getOrdId() string {
 	return ordId
 }
 
-func createProject(name string) {
+func getCloudClient() *opsmngr.Client {
 	pub, priv := getPublicAndPrivateKey()
 	t := digest.NewTransport(pub, priv)
 
@@ -43,7 +44,12 @@ func createProject(name string) {
 	if err != nil {
 		panic(err.Error())
 	}
+	return client
 
+}
+
+func createProject(name string) {
+	client := getCloudClient()
 	proj := opsmngr.Project{
 		Name:  name,
 		OrgID: getOrdId(),
@@ -65,7 +71,39 @@ func createProject(name string) {
 }
 
 func updateAutomationAgent() {
-	// get the json
+	var tmp opsmngr.AutomationConfig
+	json.Unmarshal([]byte(processesJSON), &tmp)
+
+	// read project/groupID from file.
+	r, err := ioutil.ReadFile("./cloud.txt")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	groupId := string(r)
+	client := getCloudClient()
+
+	// Get automationConfig first
+	automationConfig, _, err := client.Automation.GetConfig(context.TODO(), groupId)
+	if err != nil {
+		fmt.Printf("error: failed to get automationConfig: %v", err)
+	}
+
+	// edit the automationConfig now
+	automationConfig.Processes = tmp.Processes
+	automationConfig.ReplicaSets = tmp.ReplicaSets
+	automationConfig.MonitoringVersions = tmp.MonitoringVersions
+	automationConfig.BackupVersions = tmp.BackupVersions
+	automationConfig.AgentVersion = tmp.AgentVersion
+	automationConfig.Options = tmp.Options
+
+	// Send POST request now
+	_, err = client.Automation.UpdateConfig(context.TODO(), groupId, automationConfig)
+	if err != nil {
+		fmt.Printf("error: failed to update automationConfig: %v\n", err)
+		return
+	}
+	fmt.Println("successfully updated automationConfig")
 }
 
 // to be used by agent and put in the file cloud.txt

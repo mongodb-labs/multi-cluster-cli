@@ -37,10 +37,10 @@ func main() {
 	case Project:
 		// assert if name is passed as well
 		// read the Orgid from yaml
-		createProject(name)
+		// createProject(name)
 		updateAutomationAgent()
 	case AgentKey:
-		createAgentKey()
+		// createAgentKey()
 	case MongoDB:
 		deployMongoDBRS()
 	default:

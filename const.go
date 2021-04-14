@@ -118,3 +118,184 @@ spec:
     name: database-scripts
 
 `
+
+const processesJSON = `
+{
+ 
+	"auth": {
+		"usersWanted": [],
+		"usersDeleted": [],
+		"disabled": true,
+		"authoritativeSet": false,
+		"autoAuthMechanisms": [],
+		"autoAuthRestrictions": []
+	},
+	"processes": [{
+			"name": "my-replica-set-0",
+			"processType": "mongod",
+			"version": "4.4.0",
+			"authSchemaVersion": 5,
+			"featureCompatibilityVersion": "4.4",
+			"hostname": "my-replica-set-0-svc.mdb.svc.cluster.local",
+			"args2_6": {
+				"net": {
+					"port": 27017,
+					"tls": {
+						"mode": "disabled"
+					}
+				},
+				"replication": {
+					"replSetName": "my-replica-set"
+				},
+				"storage": {
+					"dbPath": "/data"
+				},
+				"systemLog": {
+					"destination": "file",
+					"path": "/var/log/mongodb-mms-automation/mongodb.log"
+				}
+			},
+			"horizons": {},
+			"logRotate": {
+				"sizeThresholdMB": 1000,
+				"timeThresholdHrs": 24
+			}
+		},
+		{
+			"name": "my-replica-set-1",
+			"processType": "mongod",
+			"version": "4.4.0",
+			"authSchemaVersion": 5,
+			"featureCompatibilityVersion": "4.4",
+			"hostname": "my-replica-set-1-svc.mdb.svc.cluster.local",
+			"args2_6": {
+				"net": {
+					"port": 27017,
+					"tls": {
+						"mode": "disabled"
+					}
+				},
+				"replication": {
+					"replSetName": "my-replica-set"
+				},
+				"storage": {
+					"dbPath": "/data"
+				},
+				"systemLog": {
+					"destination": "file",
+					"path": "/var/log/mongodb-mms-automation/mongodb.log"
+				}
+			},
+			"horizons": {},
+			"logRotate": {
+				"sizeThresholdMB": 1000,
+				"timeThresholdHrs": 24
+			}
+		},
+		{
+			"name": "my-replica-set-2",
+			"processType": "mongod",
+			"version": "4.4.0",
+			"authSchemaVersion": 5,
+			"featureCompatibilityVersion": "4.4",
+			"hostname": "my-replica-set-2-svc.mdb.svc.cluster.local",
+			"args2_6": {
+				"net": {
+					"port": 27017,
+					"tls": {
+						"mode": "disabled"
+					}
+				},
+				"replication": {
+					"replSetName": "my-replica-set"
+				},
+				"storage": {
+					"dbPath": "/data"
+				},
+				"systemLog": {
+					"destination": "file",
+					"path": "/var/log/mongodb-mms-automation/mongodb.log"
+				}
+			},
+			"horizons": {},
+			"logRotate": {
+				"sizeThresholdMB": 1000,
+				"timeThresholdHrs": 24
+			}
+		}
+	],
+	"replicaSets": [{
+		"_id": "my-replica-set",
+		"members": [{
+				"_id": 0,
+				"arbiterOnly": false,
+				"hidden": false,
+				"priority": 1,
+				"slaveDelay": 0,
+				"votes": 1,
+				"buildIndexes": true,
+				"tags": {},
+				"host": "my-replica-set-0"
+			},
+			{
+				"_id": 1,
+				"arbiterOnly": false,
+				"hidden": false,
+				"priority": 1,
+				"slaveDelay": 0,
+				"votes": 1,
+				"buildIndexes": true,
+				"tags": {},
+				"host": "my-replica-set-1"
+			},
+			{
+				"_id": 2,
+				"arbiterOnly": false,
+				"hidden": false,
+				"priority": 1,
+				"slaveDelay": 0,
+				"votes": 1,
+				"buildIndexes": true,
+				"tags": {},
+				"host": "my-replica-set-2"
+			}
+		],
+		"protocolVersion": "1",
+		"settings": {}
+	}],
+	"monitoringVersions": [{
+			"name": "6.4.0.433-1",
+			"hostname": "my-replica-set-0-svc.mdb.svc.cluster.local"
+		},
+		{
+			"name": "6.4.0.433-1",
+			"hostname": "my-replica-set-1-svc.mdb.svc.cluster.local"
+		},
+		{
+			"name": "6.4.0.433-1",
+			"hostname": "my-replica-set-2-svc.mdb.svc.cluster.local"
+		}
+	],
+	"backupVersions": [{
+			"name": "6.6.0.959-1",
+			"hostname": "my-replica-set-0-svc.mdb.svc.cluster.local"
+		},
+		{
+			"name": "6.6.0.959-1",
+			"hostname": "my-replica-set-1-svc.mdb.svc.cluster.local"
+		},
+		{
+			"name": "6.6.0.959-1",
+			"hostname": "my-replica-set-2-svc.mdb.svc.cluster.local"
+		}
+	],
+	"agentVersion": {
+		"name": "10.27.1.6801-1",
+		"directoryUrl": "https://s3.amazonaws.com/mciuploads/mms-automation/mongodb-mms-build-agent/builds/automation-agent/qa/"
+	},
+	"options": {
+		"downloadBase": "/var/lib/mongodb-mms-automation",
+		"downloadBaseWindows": "%SystemDrive%\\MMSAutomation\\versions"
+	}
+}
+`
