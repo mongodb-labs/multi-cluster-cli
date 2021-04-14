@@ -51,22 +51,22 @@ func createService(c *kubernetes.Clientset, name string) {
 
 	obj, _, err := decode([]byte(svc), nil, nil)
 	if err != nil {
-		fmt.Printf("error: %v\n", err)
+		fmt.Printf("error decoding: %v\n", err)
 	}
 
 	switch obj.(type) {
 	case *v1.Service:
 		svc := obj.(*v1.Service)
-		svc.ObjectMeta.Labels = map[string]string{"app": name}
+		svc.ObjectMeta.Labels = map[string]string{"app": name + "-svc"}
 		svc.ObjectMeta.Namespace = "mdb"
-		svc.ObjectMeta.Name = name
+		svc.ObjectMeta.Name = name + "-svc"
 		svc.Spec.Selector = map[string]string{"app": name}
 		_, err := c.CoreV1().Services("mdb").Create(context.TODO(), svc, metav1.CreateOptions{})
 		if err != nil {
-			fmt.Printf("failed to create service: %v\n", err)
+			fmt.Printf("error: failed to create service: %v\n", err)
 			return
 		}
-		fmt.Printf("successfully created service: %s\n", name)
+		fmt.Printf("successfully created service: %s\n", name+"-svc")
 	default:
 		panic("unkown service type")
 	}
@@ -95,7 +95,38 @@ func createSecret(c *kubernetes.Clientset) {
 }
 
 func createPod(c *kubernetes.Clientset, name string) {
+	decode := scheme.Codecs.UniversalDeserializer().Decode
 
+	obj, _, err := decode([]byte(pod), nil, nil)
+	if err != nil {
+		fmt.Printf("error decoding: %v\n", err)
+	}
+
+	switch obj.(type) {
+	case *v1.Pod:
+		podObj := obj.(*v1.Pod)
+
+		// Start editing things now
+		podObj.ObjectMeta.Name = name
+		podObj.ObjectMeta.Labels = map[string]string{"app": name}
+
+		arr := podObj.Spec.Containers[0].Env
+		arr = append(arr, v1.EnvVar{Name: "GROUP_ID", Value: getGroupId()})
+		podObj.Spec.Containers[0].Env = arr
+
+		podObj.Spec.Hostname = name
+
+		_, err := c.CoreV1().Pods("mdb").Create(context.TODO(), podObj, metav1.CreateOptions{})
+		if err != nil {
+			fmt.Printf("error: failed to create pod: %v\n", err)
+			return
+		}
+
+		fmt.Printf("successfully created pod: %s\n", name)
+	default:
+		panic("unkown pod type")
+
+	}
 }
 
 func deployMongoDBRS() {
@@ -103,14 +134,14 @@ func deployMongoDBRS() {
 	ca := getClient("kind-cluster-a")
 	cb := getClient("kind-cluster-b")
 
-	// ii. create namespace in cluster-a / cluster-b
+	// // ii. create namespace in cluster-a / cluster-b
 	createNamespace(ca)
 	createNamespace(cb)
 
 	// iii. create services 1 service in clustera and 2 services in cluster2
-	createService(ca, "my-replica-set-0-svc")
-	createService(cb, "my-replica-set-1-svc")
-	createService(cb, "my-replica-set-2-svc")
+	createService(ca, "my-replica-set-0")
+	createService(cb, "my-replica-set-1")
+	createService(cb, "my-replica-set-2")
 
 	// iv: create the secret object in each both cluster
 	createSecret(ca)
@@ -120,9 +151,9 @@ func deployMongoDBRS() {
 	createPod(ca, "my-replica-set-0")
 	createPod(cb, "my-replica-set-1")
 	createPod(cb, "my-replica-set-2")
-
 }
 
+// also cleanup cloudQA ??
 func deleteNamespace() {
 
 }

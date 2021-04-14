@@ -25,7 +25,6 @@ kind: Pod
 metadata:
   labels:
     app: my-replica-set-0
-    statefulset.kubernetes.io/pod-name: my-replica-set-0
   name: my-replica-set-0
 spec:
   containers:
@@ -36,13 +35,11 @@ spec:
       valueFrom:
         secretKeyRef:
           key: agentApiKey
-          name: 605c39d90882a963fc3734f2-group-secret
+          name: agent-secret
     - name: AGENT_FLAGS
       value: -logFile,/var/log/mongodb-mms-automation/automation-agent.log,
     - name: BASE_URL
       value: https://cloud-qa.mongodb.com
-    - name: GROUP_ID
-      value: 605c39d90882a963fc3734f2
     - name: LOG_LEVEL
       value: DEBUG
     - name: SSL_REQUIRE_VALID_MMS_CERTIFICATES
@@ -87,10 +84,8 @@ spec:
   dnsPolicy: ClusterFirst
   enableServiceLinks: true
   hostname: my-replica-set-2
-  imagePullSecrets:
-  - name: image-registries-secret
   initContainers:
-  - image: 268558157000.dkr.ecr.eu-west-1.amazonaws.com/raj/ubuntu/mongodb-enterprise-init-database:latest
+  - image:  quay.io/mongodb/mongodb-enterprise-init-database:1.0.2
     imagePullPolicy: Always
     name: mongodb-enterprise-init-database
     resources: {}
@@ -112,7 +107,6 @@ spec:
   volumes:
   - emptyDir: {}
     name: database-scripts
-
 `
 
 const processesJSON = `

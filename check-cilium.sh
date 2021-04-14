@@ -3,3 +3,8 @@ for context in kind-cluster-a kind-cluster-b; do
       kubectl --context ${context} -n kube-system exec ${pod} -- cilium status;
     done
   done
+
+
+# ./mongo my-replica-set-0-svc.mdb.svc.cluster.local:27017
+# ./mongo my-replica-set-1-svc.mdb.svc.cluster.local:27017
+# ./mongo my-replica-set-2-svc.mdb.svc.cluster.local:27017
