@@ -1,8 +1,9 @@
 #! /usr/bin/env sh
 
-clusters=($*)
+clusters=("kind-cluster-a" "kind-cluster-b")
 
 ISTIO_VERSION="${ISTIO_VERSION:-1.9.0}"
+rm -rf certs
 
 echo "Using Istio version ${ISTIO_VERSION}"
 

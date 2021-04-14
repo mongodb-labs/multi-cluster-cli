@@ -45,13 +45,16 @@ func setupKindClustersWithCillium() {
 
 // TODO : install istio https://istio.io/latest/docs/setup/install/multicluster/multi-primary/
 func setUpIstio() {
-	fmt.Println("hello")
-	cmd := exec.Command("/bin/sh", "./install-istio.sh", "`< cluster-contexts.txt`")
-	fmt.Println(cmd)
-	err := cmd.Run()
-	if err != nil {
-		fmt.Println(err)
-	}
+	cmd := exec.Command("/bin/sh", "./install-istio.sh")
+	cmdReader, _ := cmd.StdoutPipe()
+	scanner := bufio.NewScanner(cmdReader)
+	go func() {
+		for scanner.Scan() {
+			fmt.Printf("\t > %s\n", scanner.Text())
+		}
+	}()
+	cmd.Start()
+	cmd.Wait()
 }
 
 // run "docker system prune -a" ? as pre-requesite
@@ -59,5 +62,7 @@ func setUpKubernetesClusters() {
 	// check if kind clusters exist if yes, skip cluster setup.
 	// specify a flag to delte kind clusters explicitly
 	setupKindClustersWithCillium()
-	// setUpIstio()
+	// hack wait for 5 second
+	time.Sleep(5 * time.Second)
+	setUpIstio()
 }
