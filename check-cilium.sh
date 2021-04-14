@@ -4,7 +4,7 @@ for context in kind-cluster-a kind-cluster-b; do
     done
   done
 
-
+# cd /var/lib/mongodb-mms-automation/bin
 # ./mongo my-replica-set-0-svc.mdb.svc.cluster.local:27017
 # ./mongo my-replica-set-1-svc.mdb.svc.cluster.local:27017
 # ./mongo my-replica-set-2-svc.mdb.svc.cluster.local:27017

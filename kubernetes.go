@@ -153,7 +153,7 @@ func deployMongoDBRS() {
 	createPod(cb, "my-replica-set-2")
 }
 
-// also cleanup cloudQA ??
+// TODO: also cleanup cloudQA ??
 func deleteNamespace() {
 
 }
