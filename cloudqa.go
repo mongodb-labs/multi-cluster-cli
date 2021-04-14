@@ -50,7 +50,12 @@ func getCloudClient() *opsmngr.Client {
 
 // get project/group Id
 func getGroupId() string {
-	return ""
+	// read project/groupID from file.
+	r, err := ioutil.ReadFile("./cloud.txt")
+	if err != nil {
+		panic(err.Error())
+	}
+	return string(r)
 }
 
 func createProject(name string) {
@@ -73,19 +78,14 @@ func createProject(name string) {
 		return
 	}
 	fmt.Println("successfully created project mdb")
+
 }
 
 func updateAutomationAgent() {
 	var tmp opsmngr.AutomationConfig
 	json.Unmarshal([]byte(processesJSON), &tmp)
 
-	// read project/groupID from file.
-	r, err := ioutil.ReadFile("./cloud.txt")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	groupId := string(r)
+	groupId := getGroupId()
 	client := getCloudClient()
 
 	// Get automationConfig first
@@ -116,13 +116,7 @@ func updateAutomationAgent() {
 func createAgentKey() {
 	client := getCloudClient()
 
-	// read project/groupID from file.
-	r, err := ioutil.ReadFile("./cloud.txt")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	groupId := string(r)
+	groupId := getGroupId()
 	desc := &opsmngr.AgentAPIKeysRequest{
 		Desc: "multi cluster testing",
 	}
