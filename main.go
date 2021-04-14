@@ -6,6 +6,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	flag "github.com/spf13/pflag"
 )
@@ -37,7 +38,9 @@ func main() {
 	case Project:
 		// assert if name is passed as well
 		// read the Orgid from yaml
-		// createProject(name)
+		createProject(name)
+		// hack: at times patching automation agent right after project creation fails
+		time.Sleep(5 * time.Second)
 		updateAutomationAgent()
 	case AgentKey:
 		// createAgentKey()

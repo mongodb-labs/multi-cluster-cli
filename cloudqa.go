@@ -90,6 +90,7 @@ func updateAutomationAgent() {
 	}
 
 	// edit the automationConfig now
+	automationConfig.Auth = tmp.Auth
 	automationConfig.Processes = tmp.Processes
 	automationConfig.ReplicaSets = tmp.ReplicaSets
 	automationConfig.MonitoringVersions = tmp.MonitoringVersions
