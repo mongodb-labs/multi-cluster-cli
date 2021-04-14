@@ -1,1 +1,0 @@
-kind-cluster-a kind-cluster-b
