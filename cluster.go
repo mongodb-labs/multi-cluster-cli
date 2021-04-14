@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os/exec"
 	"strings"
@@ -13,7 +14,17 @@ func setupKindClustersWithCillium() {
 	// i. It spins up two kind clusters
 	// ii. Connects them with cillium
 	// iii. verifies the kind installation with cillium
-	// err := cmd.Run()
+	cmd := exec.Command("/bin/sh", "./set-up-cillium.sh")
+
+	cmdReader, _ := cmd.StdoutPipe()
+	scanner := bufio.NewScanner(cmdReader)
+	go func() {
+		for scanner.Scan() {
+			fmt.Printf("\t > %s\n", scanner.Text())
+		}
+	}()
+	cmd.Start()
+	cmd.Wait()
 
 	// verify the installation
 	deadline := time.Now().Add(4 * time.Minute)

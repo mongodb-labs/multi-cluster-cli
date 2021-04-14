@@ -15,6 +15,7 @@ type Object string
 
 const (
 	Project Object = "project"
+	Cluster        = "cluster"
 	MongoDB        = "mongo"
 )
 
@@ -22,16 +23,10 @@ const (
 // "cluster-a" and "cluster-b", maybe tweak it later
 func main() {
 	var op, name string
-	var setupKind bool
 
 	flag.StringVar(&op, "op", "", "operation to perform")
 	flag.StringVar(&name, "name", "", "name of the project to create")
-	flag.BoolVar(&setupKind, "setkind", false, "flag to setup kind cluster")
 	flag.Parse()
-
-	if setupKind {
-		setUpKubernetesClusters()
-	}
 
 	switch Object(op) {
 	case Project:
@@ -46,6 +41,8 @@ func main() {
 		createAgentKey()
 	case MongoDB:
 		deployMongoDBRS()
+	case Cluster:
+		setUpKubernetesClusters()
 	default:
 		fmt.Println("Enter a valid option...")
 	}

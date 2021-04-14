@@ -12,8 +12,9 @@ ROOT="$(PWD)"
 function info() {
     echo "=> ${1}"
 }
-
+ 
 pushd "${ROOT}" > /dev/null
+rm -rf clustermesh-tools
 
 info "Cloning 'cilium/clustermesh-tools..."
 if [[ ! -d "${CILIUM_CLUSTERMESH_TOOLS_DIR}" ]];
