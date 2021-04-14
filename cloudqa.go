@@ -48,18 +48,27 @@ func createProject(name string) {
 		Name:  name,
 		OrgID: getOrdId(),
 	}
-	_, _, err = client.Projects.Create(context.TODO(), &proj)
+	p, _, err := client.Projects.Create(context.TODO(), &proj)
 	if err != nil {
 		fmt.Printf("error: %v", err)
+		return
 	}
 
+	// write project ID to a tmp file "cloud.txt"
+	w := []byte(p.ID)
+	err = ioutil.WriteFile("./cloud.txt", w, 0644)
+	if err != nil {
+		fmt.Printf("error: failed to write project ID to file: %v", err)
+		return
+	}
+	fmt.Println("successfully created project mdb")
 }
 
 func updateAutomationAgent() {
 	// get the json
 }
 
-// to be used by agent and put in the secret
+// to be used by agent and put in the file cloud.txt
 func createAgentKey() {
 	return
 }

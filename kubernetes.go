@@ -37,7 +37,7 @@ func createNamespace(c *kubernetes.Clientset) {
 	}
 	_, err := c.CoreV1().Namespaces().Create(context.TODO(), ns, metav1.CreateOptions{})
 	if err != nil {
-		fmt.Printf("Error: failed to create namespace: %v\n", err)
+		fmt.Printf("error: failed to create namespace: %v\n", err)
 		return
 	}
 
@@ -50,7 +50,7 @@ func createService(c *kubernetes.Clientset, name string) {
 
 	obj, _, err := decode([]byte(svc), nil, nil)
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		fmt.Printf("error: %v\n", err)
 	}
 
 	switch obj.(type) {
