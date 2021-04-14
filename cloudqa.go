@@ -48,6 +48,11 @@ func getCloudClient() *opsmngr.Client {
 
 }
 
+// get project/group Id
+func getGroupId() string {
+	return ""
+}
+
 func createProject(name string) {
 	client := getCloudClient()
 	proj := opsmngr.Project{
@@ -109,5 +114,30 @@ func updateAutomationAgent() {
 
 // to be used by agent and put in the file cloud.txt
 func createAgentKey() {
+	client := getCloudClient()
+
+	// read project/groupID from file.
+	r, err := ioutil.ReadFile("./cloud.txt")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	groupId := string(r)
+	desc := &opsmngr.AgentAPIKeysRequest{
+		Desc: "multi cluster testing",
+	}
+
+	key, _, err := client.Agents.CreateAgentAPIKey(context.TODO(), groupId, desc)
+	if err != nil {
+		fmt.Printf("error: failed to create agent API keys: %v", err)
+		return
+	}
+
+	err = ioutil.WriteFile("./agent.txt", []byte(key.Key), 0644)
+	if err != nil {
+		fmt.Printf("error: failed to write agent API key to file: %v", err)
+		return
+	}
+	fmt.Println("successfully created agent API key")
 	return
 }

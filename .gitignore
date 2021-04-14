@@ -19,3 +19,4 @@ istio-1.9.0/
 certs/
 config.json
 cloud.txt
+agent.txt

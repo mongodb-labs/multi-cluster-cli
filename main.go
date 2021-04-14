@@ -14,9 +14,8 @@ import (
 type Object string
 
 const (
-	Project  Object = "project"
-	AgentKey        = "agentKey"
-	MongoDB         = "mongo"
+	Project Object = "project"
+	MongoDB        = "mongo"
 )
 
 // cluster names are currently hardcoded
@@ -42,8 +41,9 @@ func main() {
 		// hack: at times patching automation agent right after project creation fails
 		time.Sleep(5 * time.Second)
 		updateAutomationAgent()
-	case AgentKey:
-		// createAgentKey()
+
+		time.Sleep(5 * time.Second)
+		createAgentKey()
 	case MongoDB:
 		deployMongoDBRS()
 	default:
