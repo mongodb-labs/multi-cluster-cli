@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -71,8 +72,26 @@ func createService(c *kubernetes.Clientset, name string) {
 	}
 }
 
-func createSecret(c *kubernetes.Clientset, secret string) {
+func createSecret(c *kubernetes.Clientset) {
+	// read file with stored secret
+	r, err := ioutil.ReadFile("./agent.txt")
+	if err != nil {
+		panic(err.Error())
+	}
 
+	secretObj := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "agent-secret",
+		},
+		Data: map[string][]byte{"agentApiKey": r},
+	}
+
+	_, err = c.CoreV1().Secrets("mdb").Create(context.TODO(), secretObj, metav1.CreateOptions{})
+	if err != nil {
+		fmt.Printf("error: failed to create secret: %v", err)
+		return
+	}
+	fmt.Println("successfully created secret object")
 }
 
 func createPod(c *kubernetes.Clientset, name string) {
@@ -93,11 +112,17 @@ func deployMongoDBRS() {
 	createService(cb, "my-replica-set-1-svc")
 	createService(cb, "my-replica-set-2-svc")
 
-	// iv: create the secret object in each namespace
+	// iv: create the secret object in each both cluster
+	createSecret(ca)
+	createSecret(cb)
 
 	// v. create the pods 1 pod in clustera and 2 pods in cluster2
 	createPod(ca, "my-replica-set-0")
 	createPod(cb, "my-replica-set-1")
 	createPod(cb, "my-replica-set-2")
-	// TODO
+
+}
+
+func deleteNamespace() {
+
 }

@@ -23,7 +23,6 @@ const pod = `
 apiVersion: v1
 kind: Pod
 metadata:
-  generateName: my-replica-set-
   labels:
     app: my-replica-set-0
     statefulset.kubernetes.io/pod-name: my-replica-set-0
@@ -73,9 +72,6 @@ spec:
       successThreshold: 1
       timeoutSeconds: 1
     resources:
-      limits:
-        cpu: 500m
-        memory: 700M
       requests:
         cpu: 200m
         memory: 300M
