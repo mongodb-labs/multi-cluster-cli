@@ -22,17 +22,18 @@ const (
 // cluster names are currently hardcoded
 // "cluster-a" and "cluster-b", maybe tweak it later
 func main() {
-	var op, name string
+	var op string
 
 	flag.StringVar(&op, "op", "", "operation to perform")
-	flag.StringVar(&name, "name", "", "name of the project to create")
+	// TODO: maybe make this configurable?
+	// flag.StringVar(&name, "name", "", "name of the project to create")
 	flag.Parse()
 
 	switch Object(op) {
 	case Project:
 		// assert if name is passed as well
 		// read the Orgid from yaml
-		createProject(name)
+		createProject()
 		// hack: at times patching automation agent right after project creation fails
 		time.Sleep(5 * time.Second)
 		updateAutomationAgent()

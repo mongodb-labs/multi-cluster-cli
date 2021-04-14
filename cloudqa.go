@@ -58,10 +58,10 @@ func getGroupId() string {
 	return string(r)
 }
 
-func createProject(name string) {
+func createProject() {
 	client := getCloudClient()
 	proj := opsmngr.Project{
-		Name:  name,
+		Name:  "mdb",
 		OrgID: getOrdId(),
 	}
 	p, _, err := client.Projects.Create(context.TODO(), &proj)
