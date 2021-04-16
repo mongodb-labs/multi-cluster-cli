@@ -24,7 +24,7 @@ const (
 func main() {
 	var op string
 
-	flag.StringVar(&op, "op", "", "operation to perform")
+	flag.StringVar(&op, "op", "", "operation to perform, available options: cluster, project and mongo")
 	// TODO: maybe make this configurable?
 	// flag.StringVar(&name, "name", "", "name of the project to create")
 	flag.Parse()
