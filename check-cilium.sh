@@ -8,3 +8,7 @@ for context in kind-cluster-a kind-cluster-b; do
 # ./mongo my-replica-set-0-svc.mdb.svc.cluster.local:27017
 # ./mongo my-replica-set-1-svc.mdb.svc.cluster.local:27017
 # ./mongo my-replica-set-2-svc.mdb.svc.cluster.local:27017
+
+# check listeners and clusters for a pod
+# istioctl proxy-config listeners my-replica-set-0.mdb | grep mdb
+# istioctl proxy-config clusters my-replica-set-0.mdb | grep mdb
