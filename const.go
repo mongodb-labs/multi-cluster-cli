@@ -126,9 +126,10 @@ const processesJSON = `
 			"version": "4.4.0",
 			"authSchemaVersion": 5,
 			"featureCompatibilityVersion": "4.4",
-      "disabled": false,
-      "manualMode": false,
+            "disabled": false,
+            "manualMode": false,
 			"hostname": "my-replica-set-0-svc.mdb.svc.cluster.local",
+			"alias": "my-replica-set-0-svc.mdb.svc.cluster.local",
 			"args2_6": {
 				"net": {
 					"port": 27017,
@@ -159,9 +160,10 @@ const processesJSON = `
 			"version": "4.4.0",
 			"authSchemaVersion": 5,
 			"featureCompatibilityVersion": "4.4",
-      "disabled": false,
-      "manualMode": false,
+            "disabled": false,
+            "manualMode": false,
 			"hostname": "my-replica-set-1-svc.mdb.svc.cluster.local",
+			"alias": "my-replica-set-1-svc.mdb.svc.cluster.local",
 			"args2_6": {
 				"net": {
 					"port": 27017,
@@ -192,9 +194,10 @@ const processesJSON = `
 			"version": "4.4.0",
 			"authSchemaVersion": 5,
 			"featureCompatibilityVersion": "4.4",
-      "disabled": false,
-      "manualMode": false,
-			"hostname": "my-replica-set-2-svc.mdb.svc.cluster.local",
+            "disabled": false,
+            "manualMode": false,
+            "hostname": "my-replica-set-2-svc.mdb.svc.cluster.local",
+			"alias": "my-replica-set-2-svc.mdb.svc.cluster.local",
 			"args2_6": {
 				"net": {
 					"port": 27017,
