@@ -14,7 +14,7 @@ func setupKindClustersWithCillium() {
 	// i. It spins up two kind clusters
 	// ii. Connects them with cillium
 	// iii. verifies the kind installation with cillium
-	cmd := exec.Command("/bin/sh", "./set-up-cillium.sh")
+	cmd := exec.Command("/bin/sh", "./scripts/set-up-cillium.sh")
 
 	cmdReader, _ := cmd.StdoutPipe()
 	scanner := bufio.NewScanner(cmdReader)
@@ -29,8 +29,7 @@ func setupKindClustersWithCillium() {
 	// verify the installation
 	deadline := time.Now().Add(4 * time.Minute)
 	for {
-		out, _ := exec.Command("/bin/sh", "./check-cilium.sh").Output()
-		// fmt.Println(string(out))
+		out, _ := exec.Command("/bin/sh", "./scripts/check-cilium.sh").Output()
 		if strings.Count(string(out), "6/6 reachable") == 6 {
 			fmt.Println("Cillium installed successfully")
 			break
@@ -45,7 +44,7 @@ func setupKindClustersWithCillium() {
 
 // TODO : install istio https://istio.io/latest/docs/setup/install/multicluster/multi-primary/
 func setUpIstio() {
-	cmd := exec.Command("/bin/sh", "./install-istio.sh")
+	cmd := exec.Command("/bin/sh", "./scripts/install-istio.sh")
 	cmdReader, _ := cmd.StdoutPipe()
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
