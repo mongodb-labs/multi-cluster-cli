@@ -1,4 +1,5 @@
 ### mccli
+multi-cluster-cli (aka mccli) allows you to run MongoDB deployments accross multiple [Kind](https://kind.sigs.k8s.io/) clusters on your local machine. 
 
 #### Prerequisite
 
@@ -27,3 +28,5 @@ Create or Use an exiting cloud-qa organization and put the credentials in a `con
    `mccli --op mongo`
 
 Wait for the deployment to show up on cloud-qa UI.
+
+**Note: This project is only for experimental deployments and is not supported officially by MongoDB. DO NOT use it in production**.

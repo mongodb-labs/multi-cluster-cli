@@ -1,7 +1,4 @@
 // This CLI enables you to deploy MongoDB pods accross multiple clusters
-// It assumes the clusters are already setup prior to using this. At some point
-// we would like to create the cluster as well maybe??
-// Create project: ./mccli --op project --name mdb
 package main
 
 import (
